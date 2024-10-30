@@ -1,4 +1,6 @@
 import { Stack } from 'expo-router';
+import "@/global.css";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { AuthProvider } from './AuthContext';
@@ -24,15 +26,16 @@ export default function Layout() {
     return null;
   }
   return (
-    <AuthProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
-            <Stack.Screen name="(tabs)/index" options={{ title: 'Loading', headerShown: false }} />
-            <Stack.Screen name="(tabs)/login" options={{ title: 'Login', headerShown: false }}  />
-            <Stack.Screen name="(tabs)/register" options={{ title: 'Register',headerShown: false }} />
-            <Stack.Screen name="(tabs)/home" options={{ title: 'Home dude', headerShown: false }} />
-          </Stack>
-      </ThemeProvider>
-    </AuthProvider>  
+    <GluestackUIProvider mode="light"><AuthProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+              <Stack.Screen name="(tabs)/index" options={{ headerShown: false  }} />
+              <Stack.Screen name="(tabs)/login" options={{ headerShown: false }}  />
+              <Stack.Screen name="(tabs)/register" options={{headerShown: false }} />
+              <Stack.Screen name="(tabs)/home" options={{  headerShown: false }} />
+              <Stack.Screen name="(tabs)/product_info" options={{ title: 'Producto' }} />
+            </Stack>
+        </ThemeProvider>
+      </AuthProvider></GluestackUIProvider>
   );
 }

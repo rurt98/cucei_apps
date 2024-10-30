@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     // Verificación inicial de sesión
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('session', session);
+      // console.log('session', session);
       setIsAuthenticated(!!session);
       setLoadingAuth(false);
     });
