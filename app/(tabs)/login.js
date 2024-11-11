@@ -1,24 +1,23 @@
-import React, { useState, useRef } from 'react';
-import { useRouter } from 'expo-router';
+import React, { useState, useRef } from "react";
+import { useRouter } from "expo-router";
 
 import {
   SafeAreaView,
   StyleSheet,
-  Image,
+  View,
   ScrollView,
   Alert,
-} from 'react-native';
+} from "react-native";
 
-import CustomButton from '../components/custom_button';
-import InfoButton from '../components/info_button';
-import CustomTextInput from '../components/custom_text_input';
-import { useAuth } from '../AuthContext';
+import CustomButton from "../components/custom_button";
 
-const logo = require('../../assets/images/logo.png');
+import CustomTextInput from "../components/custom_text_input";
+import { useAuth } from "../AuthContext";
+import CustomAppBar from "../components/custom_app_bar";
 
 export default Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const passwordInputRef = useRef();
   const router = useRouter();
 
@@ -28,11 +27,11 @@ export default Login = () => {
     const hasError = await login(email, password);
 
     if (hasError) {
-      Alert.alert('Error', hasError);
+      Alert.alert("Error", hasError);
       return;
     }
 
-    router.replace('./home');
+    router.replace("./home");
   };
 
   return (
@@ -40,22 +39,26 @@ export default Login = () => {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         keyboardDismissMode="on-drag"
-      > 
-         <Image source={logo} style={styles.image} />
-          <CustomTextInput 
+      >
+        <CustomAppBar showLoginButton={false} />
+        <View
+          style={{
+            height: 200,
+          }}
+        />
+        <CustomTextInput
           placeholder="Email"
-            keyboardType="email-address"
-            onChangeText={setEmail}
-            onEndEditing={() => passwordInputRef.current.focus()}
-             />
-          <CustomTextInput 
-             placeholder="Password"
-             onChangeText={setPassword}
-             ref={passwordInputRef}
-             secureTextEntry
-          />
-        <CustomButton title={'Login'} onPress={loginMethod} ></CustomButton>
-        <InfoButton txt={'¿No tienes cuenta?'} txtButton={'Regístrate'} onPress={() => router.push('./register')} />
+          keyboardType="email-address"
+          onChangeText={setEmail}
+          onEndEditing={() => passwordInputRef.current.focus()}
+        />
+        <CustomTextInput
+          placeholder="Password"
+          onChangeText={setPassword}
+          ref={passwordInputRef}
+          secureTextEntry
+        />
+        <CustomButton title={"Login"} onPress={loginMethod}></CustomButton>
       </ScrollView>
     </SafeAreaView>
   );
@@ -64,14 +67,6 @@ export default Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-  },
-  image: {
-    marginVertical: 70,
-    width: 310,
-    height: 160,
-    alignSelf: 'center',
+    backgroundColor: "white",
   },
 });
-
-

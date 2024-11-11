@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Redirect } from 'expo-router';
-import { Text, View } from 'react-native';
-import { useAuth } from '../AuthContext';
+import { useEffect, useState } from "react";
+import { Redirect } from "expo-router";
+import { Text, View } from "react-native";
+import { useAuth } from "../AuthContext";
 
 export default function Home() {
   const [redirectTo, setRedirectTo] = useState<string | null>(null);
@@ -10,9 +10,9 @@ export default function Home() {
   useEffect(() => {
     if (!loadingAuth) {
       if (isAuthenticated) {
-        setRedirectTo('./home');
+        setRedirectTo("./home");
       } else {
-        setRedirectTo('./login');
+        setRedirectTo("./initial");
       }
     }
   }, [isAuthenticated, loadingAuth]);
