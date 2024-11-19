@@ -7,7 +7,7 @@ import axios from "axios";
 
 const logo = require("../../assets/images/cucei_logo.png");
 
-const CustomAppBar = ({ showLoginButton }) => {
+const CustomAppBar = ({ showLoginButton, showLogoutButton, removePop }) => {
   const router = useRouter();
 
   // Definir el estado inicial
@@ -18,6 +18,8 @@ const CustomAppBar = ({ showLoginButton }) => {
   const [city] = useState("Guadalajara"); // Cambia 'Guadalajara' por la ciudad que quieras
 
   const goToLogin = () => router.push("./login");
+
+  const logout = async () => router.replace("./login");
 
   useEffect(() => {
     axios
@@ -33,7 +35,7 @@ const CustomAppBar = ({ showLoginButton }) => {
       .catch((error) => {
         console.log("Error al obtener el clima:", error);
       });
-  }, [city]); // El array de dependencias incluye `city`, para ejecutar cuando cambia
+  }, [city]);
 
   return (
     <Box
@@ -46,6 +48,7 @@ const CustomAppBar = ({ showLoginButton }) => {
     >
       <Pressable
         onPress={() => {
+          if (removePop) return;
           if (!router.canGoBack()) return;
           return router.back();
         }}
@@ -69,13 +72,23 @@ const CustomAppBar = ({ showLoginButton }) => {
 
       <Image source={logo} style={styles.image} />
 
-      {showLoginButton ? (
-        <Pressable style={styles.button} onPress={goToLogin}>
-          <MaterialIcons name="login" size={24} color="black" />
-        </Pressable>
-      ) : (
-        <Box width={24} />
-      )}
+      <Box
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        {showLoginButton ? (
+          <Pressable style={styles.button} onPress={goToLogin}>
+            <MaterialIcons name="login" size={24} color="black" />
+          </Pressable>
+        ) : showLogoutButton ? (
+          <Pressable style={styles.button} onPress={logout}>
+            <MaterialIcons name="logout" size={24} color="black" />
+          </Pressable>
+        ) : (
+          <Box width={24} />
+        )}
+      </Box>
     </Box>
   );
 };

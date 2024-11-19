@@ -61,6 +61,10 @@ export default function Layout() {
               name="(tabs)/product_info"
               options={{ title: "Producto" }}
             />
+            <Stack.Screen
+              name="(tabs)/materias"
+              options={{ title: "Materias", headerShown: false }}
+            />
           </Stack>
         </ThemeProvider>
       </AuthProvider>

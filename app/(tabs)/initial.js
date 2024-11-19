@@ -1,15 +1,10 @@
 import { useRouter } from "expo-router";
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  Text,
-  Pressable,
-} from "react-native";
+import { SafeAreaView, StyleSheet, Text, Pressable } from "react-native";
 
 import MapView, { Marker } from "react-native-maps";
 import CustomAppBar from "../components/custom_app_bar";
 import { Box } from "@/components/ui/box";
+import CustomHeader from "../components/custom_header";
 
 export default Login = () => {
   const router = useRouter();
@@ -24,21 +19,8 @@ export default Login = () => {
   return (
     <SafeAreaView style={styles.container}>
       <CustomAppBar showLoginButton={true} />
-      <Box style={{ justifyContent: "center", flex: 1 }}>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          p={4}
-          className="p-3"
-        >
-          <Box width={50} height={50} style={styles.containerStyle}>
-            <Text style={styles.textStyles}>RA</Text>
-          </Box>
-          <Box width={300} height={50} style={styles.containerStyle}>
-            <Text style={styles.textStyles}>Módulos</Text>
-          </Box>
-        </Box>
+      <Box style={{ flex: 1 }}>
+        <CustomHeader />
         <Box
           display="flex"
           flexDirection="row"
@@ -57,7 +39,8 @@ export default Login = () => {
               </Text>
             </Box>
           </Pressable>
-          <Box width={300} height={300} style={styles.containerStyle}>
+          <Box width={10} />
+          <Box flex={1} height={300} style={styles.containerStyle}>
             <MapView style={styles.map} initialRegion={initialRegion}>
               <Marker
                 coordinate={{
@@ -86,11 +69,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     borderRadius: 10,
-  },
-  textStyles: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 20,
   },
   textStyles2: {
     transform: [{ rotate: "-90deg" }],
