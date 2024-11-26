@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cuceiApps.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +28,14 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.1015108287266-63ejj3fp7emi22go9vtv0lbej04cqmjp"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

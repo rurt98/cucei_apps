@@ -25,12 +25,12 @@ export default Login = () => {
 
   const loginMethod = async () => {
     // TODO: Implement login
-    // const hasError = await login(email, password);
+    const hasError = await login(email, password);
 
-    // if (hasError) {
-    //   Alert.alert("Error", hasError);
-    //   return;
-    // }
+    if (hasError) {
+      Alert.alert("Error", hasError);
+      return;
+    }
 
     router.replace("./home");
   };
