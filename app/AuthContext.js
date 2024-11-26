@@ -1,23 +1,22 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "./utils/supabase";
-import {
-  GoogleSignin,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
-
+import * as Google from "expo-auth-session/providers/google";
+import { useRouter } from "expo-router";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loadingAuth, setLoadingAuth] = useState(true);
 
-  GoogleSignin.configure({
-    scopes: ["https://www.googleapis.com/auth/drive.readonly"],
-    webClientId:
-      "1015108287266-t28jnsqn038s62cv5i1nvhdedtlb0g6o.apps.googleusercontent.com",
+  const router = useRouter();
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId:
+      "693199826709-saq1vjkk0o1r8hd9ac96d37ajpclekpl.apps.googleusercontent.com",
   });
 
   useEffect(() => {
+    handleSignInWithGoogle();
     // Verificación inicial de sesión
     supabase.auth.getSession().then(({ data: { session } }) => {
       // console.log('session', session);
@@ -37,35 +36,30 @@ export function AuthProvider({ children }) {
         authListener.subscription.unsubscribe();
       }
     };
-  }, []);
+  }, [response]);
 
-  const login = async (email, password) => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      if (userInfo.data.idToken) {
-        const { data, error } = await supabase.auth.signInWithIdToken({
-          provider: "google",
-          token: userInfo.data.idToken,
-        });
-        console.log(error, data);
-      } else {
-        throw new Error("no ID token present!");
-      }
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        // some other error happened
-      }
+  const handleSignInWithGoogle = async () => {
+    if (response?.type === "success") {
+      await handlerLoginSupaase(response.authentication.idToken);
     }
-    // const { error } = await supabase.auth.signInWithPassword({ email, password });
-    // if (error) return error.message;
-    return null;
+  };
+
+  const handlerLoginSupaase = async (idToken) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithIdToken({
+        provider: "google",
+        token: idToken,
+      });
+
+      if (error) return;
+      router.replace("./home");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const login = async () => {
+    await promptAsync();
   };
 
   const logout = async () => {

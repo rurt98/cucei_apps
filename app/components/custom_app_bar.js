@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Image, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Box } from "@/components/ui/box";
 import axios from "axios";
-
+import { useAuth } from "../AuthContext";
 const logo = require("../../assets/images/cucei_logo.png");
 
 const CustomAppBar = ({ showLoginButton, showLogoutButton, removePop }) => {
@@ -19,7 +19,18 @@ const CustomAppBar = ({ showLoginButton, showLogoutButton, removePop }) => {
 
   const goToLogin = () => router.push("./login");
 
-  const logout = async () => router.replace("./login");
+  const { logout } = useAuth();
+
+  const logoutMethod = async () => {
+    const hasError = await logout();
+
+    if (hasError) {
+      Alert.alert("Error", hasError);
+      return;
+    }
+
+    router.replace("./initial");
+  };
 
   useEffect(() => {
     axios
@@ -82,7 +93,7 @@ const CustomAppBar = ({ showLoginButton, showLogoutButton, removePop }) => {
             <MaterialIcons name="login" size={24} color="black" />
           </Pressable>
         ) : showLogoutButton ? (
-          <Pressable style={styles.button} onPress={logout}>
+          <Pressable style={styles.button} onPress={logoutMethod}>
             <MaterialIcons name="logout" size={24} color="black" />
           </Pressable>
         ) : (

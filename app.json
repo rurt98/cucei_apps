@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "cuceiApps",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -14,13 +14,23 @@
     },
     "ios": {
       "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.693199826709-saq1vjkk0o1r8hd9ac96d37ajpclekpl"
+            ]
+          }
+        ]
+      },
       "bundleIdentifier": "com.cuceiApps.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.cuceiApps.app"
     },
     "web": {
       "bundler": "metro",
@@ -29,11 +39,10 @@
     },
     "plugins": [
       "expo-router",
-
       [
         "@react-native-google-signin/google-signin",
         {
-          "iosUrlScheme": "com.googleusercontent.apps.1015108287266-63ejj3fp7emi22go9vtv0lbej04cqmjp"
+          "iosUrlScheme": "com.googleusercontent.apps.693199826709-saq1vjkk0o1r8hd9ac96d37ajpclekpl"
         }
       ]
     ],
